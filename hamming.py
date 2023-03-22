@@ -1,52 +1,59 @@
 #maintained even parity for codeword generation and error correction
 # all computations done on string in ascending order p1, p2, d3, ....
 # just displayed them in reverse order as per notation 
+# for identification the parity bits and corrected bits are integers while rest are chars in list
 
 def main():
 # 1.  ------       Codeword generation    ------
     print("CODEWORD GENERATION ")
+    # binary = input("Enter a string of 0's and 1's whose codeword you want ")
     char = input("Enter any character i.e size of 1 byte or 8 bits ")
-    binary = '0' + bin(ord(char))[2:]
+    binary = ""
+    for ch in char:
+        binary += '0' + bin(ord(ch))[2:]
+
     # binary = "1011"
     # binary = "01100010"
+
+    # reversing as data bits are assigned in reverse order only
     binary = reverse(binary)
-    # print(binary)
     m = len(binary)
-    r = 0
     # calculate r 
+    r = 0
     while (2**r < m + r + 1):
         r+=1
+
+    total = m + r
     # created list and stored possible powers of 2
-    p =[]
-    for i in range(r):
-        p.append(2**i)
-    total = m + len(p)
+    # p =[]
+    # for i in range(r):
+    #     p.append(2**i)
 
 # displaying format of codeword
     count=0; cp=0
-    show=[] 
-    ds=[]
+    hamm_disp=[] 
+    datastream=[]
     for i in range(1, total+1):
         if i == 2**count:
-            show.append('P' + str(i))
-            ds.append('P' + str(i))
+            hamm_disp.append('P' + str(i))
+            datastream.append('P' + str(i))
             count += 1
         else:
-            show.append('D' + str(i))   
-            ds.append(binary[cp])
+            hamm_disp.append('D' + str(i))   
+            datastream.append(binary[cp])
             cp += 1
-    # print(show)
-    # print(ds)
-    print(reverse(show))
+    # print(hamm_disp)
+    # print(datastream)
+    print(reverse(hamm_disp))
 
 # find parity bits 
     count=0
     for i in range(1, (2**r)):   
         if i == 2**count:
-            ds[i - 1] = codeWord(i, ds, total)
+            datastream[i - 1] = codeWord(i, datastream, total)
             count +=1
-    # print(ds)
-    print(reverse(ds))
+    # print(datastream)
+    print(reverse(datastream))
 
 
 # #     ------       2.   Error correction hamming code     ------
@@ -72,6 +79,7 @@ def main():
             seq[count]  = errDetect(i, copy, total)
             count +=1
     # print(seq)
+
     # #reverse the seq as  we want p8, p4, p2, p1..
     seq.reverse()
     # create binary number with list elements
@@ -79,9 +87,10 @@ def main():
     for i in range(r):
         binr = binr*10 + seq[i]
     # decimal to binary direct py method available using stringify and int(bin, 2)
-    binr = str(binr)    
-    dec = int(binr, 2)
+    # binr = str(binr)    
+    dec = int(str(binr), 2)
     # print(dec)    
+    
     # # changing the reqd bit
     if dec!=0:
         print(f"Error present in bit {dec}")
@@ -90,7 +99,7 @@ def main():
         else:
             copy[dec-1] = 1
         print("Corrected CodeWord :")
-        print(reverse(show))
+        print(reverse(hamm_disp))
         print(reverse(copy))
     else: 
         print("Codeword is correct")
@@ -116,14 +125,14 @@ def sumOf(i, list, total):
     return sum                
 
 #  function to generate parity bits
-def codeWord(i, ds, total):
-    sum = sumOf(i, ds, total)
+def codeWord(i, datastream, total):
+    sum = sumOf(i, datastream, total)
     if sum%2 == 0:      #parity bit
-        ds[i-1] = 0 
+        par = 0 
     else:
-        ds[i-1] = 1
+        par = 1
 
-    return ds[i-1]  
+    return par  
 
 #  function to detect error (i.e parity bits that don't match the even criteria)
 def errDetect(i, copy, total):
