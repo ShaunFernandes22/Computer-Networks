@@ -24,6 +24,8 @@ def main():
         r+=1
 
     total = m + r
+
+    # somehow if we can store and use par index so we don't have to loop through all numbers again and again
     # created list and stored possible powers of 2
     # p =[]
     # for i in range(r):
@@ -145,3 +147,11 @@ def errDetect(i, copy, total):
     return val
 
 main()
+
+# line 28
+# list = [1,2,4,8]
+
+# copy = [1,1,1,1,1,1,1,1,1,1,1]
+# for i in list:
+#     copy[i - 1] = 'A'
+# print(copy)    
