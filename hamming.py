@@ -25,11 +25,10 @@ def main():
 
     total = m + r
 
-    # somehow if we can store and use par index so we don't have to loop through all numbers again and again
     # created list and stored possible powers of 2
-    # p =[]
-    # for i in range(r):
-    #     p.append(2**i)
+    p =[]
+    for i in range(r):
+        p.append(2**i)
 
 # displaying format of codeword
     count=0; cp=0
@@ -49,11 +48,13 @@ def main():
     print(reverse(hamm_disp))
 
 # find parity bits 
-    count=0
-    for i in range(1, (2**r)):   
-        if i == 2**count:
-            datastream[i - 1] = codeWord(i, datastream, total)
-            count +=1
+    for i in p:
+        datastream[i-1] = codeWord(i, datastream, total)
+    # count=0
+    # for i in range(1, (2**r)):   
+    #     if i == 2**count:
+    #         datastream[i - 1] = codeWord(i, datastream, total)
+    #         count +=1
     # print(datastream)
     print(reverse(datastream))
 
@@ -68,6 +69,9 @@ def main():
     r = 0
     while(2**r < total+1):
         r+=1
+    p =[]
+    for i in range(r):
+        p.append(2**i)    
     copy = []
     for i in range(total):
         copy.append(faulty[i])
@@ -75,11 +79,16 @@ def main():
 
 # checking and storing parity bits which don't match even parity in a list i.e. p1, p2, p4, p8...
     seq =[object() for _ in range(r)]
-    count=0
-    for i in range(1, (2**r)):   
-        if i == 2**count:
-            seq[count]  = errDetect(i, copy, total)
-            count +=1
+    
+    count = 0
+    for i in p:
+        seq[count] = errDetect(i, copy, total)
+        count += 1
+    # count=0
+    # for i in range(1, (2**r)):   
+    #     if i == 2**count:
+    #         seq[count]  = errDetect(i, copy, total)
+    #         count +=1
     # print(seq)
 
     # #reverse the seq as  we want p8, p4, p2, p1..
@@ -107,8 +116,8 @@ def main():
         print("Codeword is correct")
 
 # reverse string or list
-def reverse(stringy):
-    return stringy[::-1]
+def reverse(item):
+    return item[::-1]
 
 # loop goes to the reqd data bits for particular parity bit to count no of 1's 
 def sumOf(i, list, total):
@@ -147,11 +156,3 @@ def errDetect(i, copy, total):
     return val
 
 main()
-
-# line 28
-# list = [1,2,4,8]
-
-# copy = [1,1,1,1,1,1,1,1,1,1,1]
-# for i in list:
-#     copy[i - 1] = 'A'
-# print(copy)    
