@@ -28,18 +28,18 @@ for i in range(n):
 for j in range(n):
     temp.append(binary[j])
 
-pos = n #points to next index of binary
-qu=""
+position = n #points to next index of binary
+quotient=""
 # print(temp)
-while pos <= m: # when pos == m index bound, so nothing is carried down but its reqd to get last remainder  
+while position <= m: # when position == m index bound, so nothing is carried down but its reqd to get last remainder  
     
     # deciding subtr and quotient
     if temp[0] == '1':
         subtr = div
-        qu += '1'
+        quotient += '1'
     else:
         subtr = zeroes
-        qu += '0'
+        quotient += '0'
   
     # print(subtr)        
     # print("--------------------------------------")
@@ -53,9 +53,9 @@ while pos <= m: # when pos == m index bound, so nothing is carried down but its 
     
     temp.pop(0) #1st bit is not reqd, starting from 2nd(n-1 bits reqd)
     
-    if pos < m: # carry next bit down
-        temp.append(binary[pos])
-    pos+=1
+    if position < m: # carry next bit down
+        temp.append(binary[position])
+    position += 1
 
     # print(temp)    
    
@@ -63,8 +63,15 @@ rem = ""
 for i in temp:
     rem += i
 
-print("\nThe quotient is",qu)
+print("\nThe quotient is",quotient)
 print("The remainder is",rem)
 
 if (choice == 1):
     print("The generated CRC is", binary1+rem)
+
+else:
+    check = int(str(rem),2)
+    if (check == 0):
+        print("Acceptable, the correct message is received")
+    else: 
+        print("Not Acceptable, there is a bit error")        
