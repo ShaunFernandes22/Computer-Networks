@@ -31,6 +31,7 @@ for j in range(n):
 position = n #points to next index of binary
 quotient=""
 # print(temp)
+#XOR DIVISION
 while position <= m: # when position == m index bound, so nothing is carried down but its reqd to get last remainder  
     
     # deciding subtr and quotient
